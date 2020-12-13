@@ -5,6 +5,11 @@
  */
 package main;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author victo
@@ -16,6 +21,10 @@ public class Main extends javax.swing.JFrame {
      */
     public Main() {
         initComponents();
+        this.setLocationRelativeTo(null);
+        this.modelo.addColumn("No. Cliente");
+        this.modelo.addColumn("ri");
+        this.modelo.addColumn("T. servicio");
     }
 
     /**
@@ -37,19 +46,31 @@ public class Main extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         campo_MediaClientes = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        mi_tabla = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Proyecto final");
+        setResizable(false);
 
         background.setBackground(new java.awt.Color(0, 102, 102));
 
         btnClean.setBackground(new java.awt.Color(153, 51, 0));
         btnClean.setForeground(new java.awt.Color(255, 255, 255));
         btnClean.setText("Clean");
+        btnClean.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnCleanMouseReleased(evt);
+            }
+        });
 
         btnRun.setBackground(new java.awt.Color(0, 102, 0));
         btnRun.setForeground(new java.awt.Color(255, 255, 255));
         btnRun.setText("Run");
+        btnRun.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnRunMouseReleased(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -59,7 +80,7 @@ public class Main extends javax.swing.JFrame {
         jLabel2.setText("Introduzca el número de clientes");
 
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("Introduzca la media de cada cliente");
+        jLabel3.setText("Introduzca la media para cada cliente");
 
         jLabel4.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
@@ -108,22 +129,15 @@ public class Main extends javax.swing.JFrame {
                 .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(campo_MediaClientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 81, Short.MAX_VALUE)
                 .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnRun)
                     .addComponent(btnClean))
                 .addGap(23, 23, 23))
         );
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "No. cliente", "ri", "T. servicio"
-            }
-        ));
-        jScrollPane1.setViewportView(jTable1);
+        mi_tabla.setModel(this.modelo);
+        jScrollPane1.setViewportView(mi_tabla);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -131,21 +145,32 @@ public class Main extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(background, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 447, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(background, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 296, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnCleanMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCleanMouseReleased
+        // Se ejecuta este método
+        this.fncBtnClean();
+        
+    }//GEN-LAST:event_btnCleanMouseReleased
+
+    private void btnRunMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRunMouseReleased
+        // Se ejecuta este método
+        this.fncBtnRun();
+    }//GEN-LAST:event_btnRunMouseReleased
 
     /**
      * @param args the command line arguments
@@ -193,6 +218,77 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable mi_tabla;
     // End of variables declaration//GEN-END:variables
+    DefaultTableModel modelo = new DefaultTableModel();
+    int noclientes = 0;
+    double media = 0;
+    
+    private boolean modeloEstaVacio(){
+        int filas = this.modelo.getRowCount();
+        while(this.modelo.getRowCount() > 0){
+            filas--;
+            this.modelo.removeRow(filas);
+        }
+        
+        return ( this.modelo.getRowCount() == 0 );
+    }
+    
+    private void fncBtnClean() {
+        this.campo_MediaClientes.setText(null);
+        this.campo_NoClientes.setText(null);
+        this.modeloEstaVacio();
+    }
+
+    private void fncBtnRun(){
+        
+        try{
+            
+            this.CamposSonVacios();
+            this.CamposSonNegativos();
+            this.modeloEstaVacio();
+            
+            for(int item=0; item < noclientes; item++){
+                
+                double ri = Double.parseDouble( String.format("%.2f", Math.random()) );
+                double tservicio = Double.parseDouble( String.format("%.2f", (media*ri)) );
+                 
+                this.modelo.addRow(new Object[]{ (item+1) , ri , tservicio });
+                
+            }
+
+        } catch (ExcepcionCampos ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage() );
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Los campos son incorrectos.");
+        }
+        
+    }
+    
+    // * Verificar que los campos no esten vacios
+    private void CamposSonVacios() throws ExcepcionCampos{
+        if( this.campo_NoClientes.getText().trim().isEmpty() || this.campo_MediaClientes.getText().trim().isEmpty()){
+            throw new ExcepcionCampos("Los campos no deben estar vacios.");
+        }
+        
+    }
+    
+    // * Verificar que los campos no sean negativos
+    private void CamposSonNegativos() throws ExcepcionCampos{
+        this.noclientes = Integer.parseInt(this.campo_NoClientes.getText().trim());
+        this.media = Integer.parseInt(this.campo_MediaClientes.getText().trim());
+        if( noclientes < 0 || media < 0){
+            throw new ExcepcionCampos("Los campos no deben ser negativos");
+        }
+        
+    }
+    
+    // * Crear una excepcion propia
+    private class ExcepcionCampos extends Exception{
+        public ExcepcionCampos(String message) {
+            super(message);
+        }
+    } 
+   
 }
+
