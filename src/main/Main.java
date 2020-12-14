@@ -251,10 +251,12 @@ public class Main extends javax.swing.JFrame {
             
             for(int item=0; item < noclientes; item++){
                 
+                int cliente = (item+1);
                 double ri = Double.parseDouble( String.format("%.2f", Math.random()) );
-                double tservicio = Double.parseDouble( String.format("%.2f", (media*ri)) );
-                 
-                this.modelo.addRow(new Object[]{ (item+1) , ri , tservicio });
+                double xi = (-1 * media) * Math.log(1 - ri);
+                double tservicio = Double.parseDouble( String.format("%.2f",  xi ) );
+                
+                this.modelo.addRow(new Object[]{ cliente , ri , tservicio });
                 
             }
 
