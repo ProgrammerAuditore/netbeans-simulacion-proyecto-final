@@ -246,6 +246,7 @@ public class Main extends javax.swing.JFrame {
             
             this.CamposSonVacios();
             this.CamposSonNegativos();
+            this.CamposSonCeros();
             this.modeloEstaVacio();
             
             for(int item=0; item < noclientes; item++){
@@ -273,12 +274,22 @@ public class Main extends javax.swing.JFrame {
         
     }
     
-    // * Verificar que los campos no sean negativos
+    // * Verificar que los números no sean negativos
     private void CamposSonNegativos() throws ExcepcionCampos{
         this.noclientes = Integer.parseInt(this.campo_NoClientes.getText().trim());
         this.media = Integer.parseInt(this.campo_MediaClientes.getText().trim());
         if( noclientes < 0 || media < 0){
             throw new ExcepcionCampos("Los campos no deben ser negativos");
+        }
+        
+    }
+    
+    // * Verificar que los números no sean 0
+    private void CamposSonCeros() throws ExcepcionCampos{
+        this.noclientes = Integer.parseInt(this.campo_NoClientes.getText().trim());
+        this.media = Integer.parseInt(this.campo_MediaClientes.getText().trim());
+        if( noclientes == 0 || media == 0){
+            throw new ExcepcionCampos("Los campos no deben ser ceros");
         }
         
     }
